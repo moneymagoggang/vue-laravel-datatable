@@ -38,11 +38,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <input
-                    type="search"
-                    class="form-control"
-                    placeholder="Search by name,email,phone,or address..."
+                <input v-model.lazy="search"
+                       type="search"
+                       class="form-control"
+                       placeholder="Search by name,email,phone,or address..."
                 />
+
             </div>
         </div>
 
@@ -98,7 +99,7 @@
                                     <td>{{ post.category_id }}</td>
                                     <td>{{ post.created_at }}</td>
                                     <td>
-                                        <button @click="test()" class="btn btn-danger btn-sm">
+                                        <button @click="deletePost(post.id)" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
                                     </td>
@@ -108,8 +109,8 @@
         </div>
         <div class="row mt-4">
             <div class="col-sm-6 offset-5">
-<!--                <pagination :data="posts" @pagination-change-page="getPosts"></pagination>-->
-                <pagination></pagination>
+                <pagination :data="posts" @pagination-change-page="getPosts" :show-disabled="true" :limit="4" size="default"></pagination>
+
             </div>
         </div>
     </div>
@@ -118,24 +119,43 @@
 
 <script>
 export default {
-
     data() {
         return {
             posts: {},
             paginate: 10,
+            search : "",
         }
     },
     watch:{
         paginate: function(value){
             this.getPosts();
-        }
+        },
+        search: function(value){
+            this.getPosts();
+        },
+
     },
     methods: {
+
         getPosts(page = 1){
-            axios.get('api/posts?page=' + page + '&paginate=' + this.paginate)
+            axios.get('api/posts?page=' + page
+                + '&paginate=' + this.paginate
+                + '&q=' + this.search
+            )
                 .then(response => {
                     this.posts = response.data;
                 })
+        },
+        deletePost(post){
+            if (confirm("Are you sure you want to delete this post?")) {
+                axios.delete(`/api/posts/${post}`)
+                    .then(() => {
+                        this.getPosts();
+                    })
+                    .catch(error => {
+                        console.error("Error deleting post:", error);
+                    });
+            }
         }
     },
     mounted(){

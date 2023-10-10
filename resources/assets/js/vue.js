@@ -10,12 +10,13 @@ import "primevue/resources/themes/lara-light-blue/theme.css";
 import { createApp } from "vue/dist/vue.esm-bundler.js";
 
 import ExampleComponent from "./components/ExampleComponent.vue";
-import Pagination from "vue-pagination/src/main.js";
+import {Bootstrap5Pagination} from 'laravel-vue-pagination';
+
 
 const app = createApp({});
 app.use(PrimeVue);
 
-app.component("pagination", Pagination);
+app.component("pagination", Bootstrap5Pagination);
 app.component("example-component", ExampleComponent);
 
 const root = document.querySelector("#app");
@@ -23,3 +24,6 @@ const root = document.querySelector("#app");
 if (root) {
     app.mount(root);
 }
+
+
+

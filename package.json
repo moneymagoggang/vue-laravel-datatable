@@ -19,6 +19,7 @@
         "jquery-mask-plugin": "^1.14.16",
         "jquery-ui": "^1.13.2",
         "jquery-validation": "^1.19.5",
+        "laravel-vue-pagination": "^4.1.1",
         "mariadb": "^3.2.1",
         "moment": "^2.29.4",
         "primevue": "^3.35.0",

@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/posts',[\App\Http\Controllers\PostController::class,'index']);
+
+Route::delete('/posts/{post}', [\App\Http\Controllers\PostController::class, 'destroy']);
